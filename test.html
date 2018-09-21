@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+</body>
+<script>
+  function getimgData(canvas, context, dr) {
+    var imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    var dots = [];
+    for (var x = 0; x < imgData.width; x += dr) {
+      for (var y = 0; y < imgData.height; y += dr) {
+        var i = (y * imgData.width + x) * 4;
+        if (imgData.data[i + 3] > 128) {
+          var dot = {
+            x: x,
+            y: y,
+            a: imgData.data[i],
+            b: imgData.data[i + 1],
+            c: imgData.data[i + 2]
+          };
+          dots.push(dot);
+        }
+      }
+    }
+    return dots;
+  }
+function getRandom(a, b) {
+  return Math.random() * (b - a) + a;
+}
+// const canvas = document.getElementById('canvas');
+const canvas = document.createElement('canvas');
+document.body.appendChild(canvas)
+canvas.width = 1000;
+canvas.height = 600;
+
+const context = canvas.getContext('2d');
+const text = '新年快乐'
+context.save();
+const fontSize = 200;
+context.font = fontSize + "px 宋体 bold";
+context.textAlign = "center";
+context.textBaseline = "middle";
+context.fillStyle = "rgba(" + parseInt(getRandom(128, 255)) + "," + parseInt(getRandom(128, 255)) + "," +
+  parseInt(getRandom(128, 255)) + " , 1)";
+context.fillText(text, canvas.width / 2, canvas.height / 2);
+context.restore();
+const dots = [], dr = 5;
+// const dots = getimgData(canvas, context, 5);
+var imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+context.clearRect(0, 0, canvas.width, canvas.height);
+for (var x = 0; x < imgData.width; x += dr) {
+  for (var y = 0; y < imgData.height; y += dr) {
+    var i = (y * imgData.width + x) * 4;
+    if (imgData.data[i + 3] > 128) {
+      var dot = {
+        x: x,
+        y: y,
+        a: imgData.data[i],
+        b: imgData.data[i + 1],
+        c: imgData.data[i + 2]
+      };
+      dots.push(dot);
+    }
+  }
+}
+</script>
+
+</html>
