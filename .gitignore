@@ -39,7 +39,7 @@ jspm_packages
 # gitbook
 _book
 *.mov
-dist
+# dist
 .idea
 .DS_Store
 config.json
